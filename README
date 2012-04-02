@@ -1,0 +1,151 @@
+The Objective
+The objective of this assignment is to become familiar using pointers, structs and dynamic memory in a C application. Good design, separate compilation and makefiles are also important aspects of this project. Students will also gain experience with command line arguments.
+
+The Task
+One of the most fundamantal concepts in algebra is the polynomial. A polynomial in one variable, say x, is the sum of terms made up of a coefficient and an exponent, e.g. 4x^5 - 3x^3 + 2x^2 - 6x + 1.
+
+In this project, you will be implementing a polynomial (and its terms) using structs and performing operations on those polynomials based on commands read from a command file. Dynamic memory allocation is also required.
+
+Since your program will require multiple polynomials, an array of pointers to polynomials is necessary in your program. Each command will indicate to which polynomial(s) it applies by supplying the index (indicies) of the polynomial(s) in the array.
+
+How does your program work?
+
+    Your program is executed with a single command line argument which is the name of the command file to process.
+    Your program reads the command file and executes each command. All commands must be echoed to the screen. See sample output below.
+
+The command file
+Each command in the command file will be on a separate line. Command arguments are separated by whitespace. All commands will be in upper-case as shown below. All command arguments will be valid.
+
+    ADDTERM <index> <coefficient> <exponent> -- add a term with the specified coefficeint and exponent to the specified polynomial. If a term with the specified exponent already exists in the polynomial, then combine/add the new term with/to the existing term. We guarantee that all exponents are non-negative. An exponent of zero (0) indicates a constant term.
+    MULTIPLY <index> <scalar value> -- multiply each coefficient of the specified polynomial by the scalar value.
+    ADD <sum index> <op1 index> <op2 index> -- add the polynomials specified by the operand indicies and store their sum. e.g. sum = op1 + op2. See Requirements section for more about the ADD command.
+    SUBTRACT <diff index> <op1 index> <op2 index> -- subtract the polynomial specified by <op2 index> from the polynomial specified by <op1 index> and store the result in the polynomial specified by <diff index> e.g. diff = op1 - op2. See Requirements section for more about SUBTRACT.
+
+Hints, Notes and Requirements
+Requirements, Hints and Notes which are new or different from project 3 are marked with
+
+    Other Requirements
+    You must use a struct to model a polynomial.
+    You must use a struct to model a term within the polynomial.
+    All polynomial and term structs must be dynamically allocated.
+    The array of pointers to Polynomials which will be required must be dynamically allocated.
+
+    As a result of these last two (admittedly artificial) requirements, your data will be organized as shown below
+
+    Each command must print the polynomial which results from its execution. See sample output below. If a polynomial to be printed has no terms, print zero (0).
+    Terms in a polynomials must be output in order by exponent from high to low. If the coeffiecient of the leading term is positive, suppress the "+" sign. Terms must be properly spaced. Printing coefficients and exponents with value of 1 is optional. Polynomials MUST be printed in this format to be readable. See sample output below.
+    Both the ADD and SUBTRACT commands must support the case in which the sum/difference index is the same as one (or both) of the operand indices. I.e. if P1 and P2 represent polynomials, then expression such as P1 = P1 + P2, P1 = P1 + P1, P1 = P2 - P1, and P1 = P1 - P2 must be possible.
+    Parameters to polynomial functions must use pointers to polynomials wherever possible.
+    At least one polynomial-oriented function must have pointer to polynomial as its return type. Functions to create, add and subtract polynomials are good candidates.
+    Polynomial-oriented functions must be reusable in other applications. When writing such functions ask yourself whether or not you are including code specific to this project. If so, your function is NOT reusable.
+    Your code must be separated into multiple .c files as follows. Appropriate .h files are also required. You are free to choose any names for your files.
+        main( ) and helper functions specific to this project may be in the same .c file
+        Since polynomial-oriented functions are reusable, they must be placed in a separate .c file and their prototypes placed in an appropriately named .h file
+    You must submit a makefile that creates an executable named Project4 just by typing make at the Unix prompt.
+    Proper use of static, #define and <="" span=""> variables is required. Do not abuse the use of static to create variables with file scope in order to avoid passing arguments to functions.
+    All dynamically allocated memory must be free'd so that no memory leaks are created. Use valgrind (see next item) to confirm that your code is correct.
+    Your program must run cleanly under the Unix valgrind utility. Execute your program under control of valgrind with the command
+
+     linxu2[2]% valgrind --leak-check=full Project4 CommandFile
+
+    The result should look something like this
+
+    linux2[124]% valgrind Project4 cmdFile
+    ==21432== Memcheck, a memory error detector.
+    ==21432== Copyright (C) 2002-2006, and GNU GPL'd, by Julian Seward et al.
+    ==21432== Using LibVEX rev 1658, a library for dynamic binary translation.
+    ==21432== Copyright (C) 2004-2006, and GNU GPL'd, by OpenWorks LLP.
+    ==21432== Using valgrind-3.2.1, a dynamic binary instrumentation framework.
+    ==21432== Copyright (C) 2000-2006, and GNU GPL'd, by Julian Seward et al.
+    ==21432== For more details, rerun with: -v
+    ==21432==
+
+     --- your program output will be here ----
+
+    ==21432==
+    ==21432== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 13 from 1)
+    ==21432== malloc/free: in use at exit: 0 bytes in 0 blocks.
+    ==21432== malloc/free: 18 allocs, 18 frees, 1,172 bytes allocated.
+    ==21432== For counts of detected errors, rerun with: -v
+    ==21432== All heap blocks were freed -- no leaks are possible.
+
+
+    See the course resources page for a link to a valgrind tutorial and / or see the on-line Unix manual for help with valgrind.
+
+    Hints
+    If you think about how you would implement a Polynomial as a class in Java/OOP, the "methods" of the Polynomial class become the Polynomial "library" that go into a separate file.
+    A good design will limit the number of places that malloc and free are called. This makes the code easier to understand and, more importantly, easier to debug.
+    Use incremental development.
+        Implement the basic polynomial and term functions first and unit test them.
+        Write the primary processing part of main to handle just one command. Create a simple command file to test this code in main and the polynomial/term functions.
+        Add more commands and supporting polynomial/term functions.
+        Rinse and repeat.
+    Several small polynomial/term functions are better than a few large ones (think "code reuse"). In addition to the polynomial/term functions required to support the commands, our code also included at least 6 polynomial/term functions to create, free, and initialize polynomials and terms.
+    gdb is your friend. Use it.
+    Visit blackboard discussion board regularly. Create and share your own command files via blackboard.
+
+    Notes
+    The maximum number of polynomials is eight (8).
+    The maximum number of terms per polynomial is twenty (20).
+    A polynomial with no terms is considered to have a value of zero (0).
+    Although your code should work in any case, we guarantee that coefficients will be non-zero.
+    We guarantee that the command file will be well-formed and that all data in the command file will be valid.
+
+Sample output
+
+linux3[179]% Project4  cmdFile1
+CMD: ADDTERM, Poly: 0,  Coeff: 2, Exp: 3
+Poly0 = 2x^3
+
+CMD: ADDTERM, Poly: 0,  Coeff: 3, Exp: 4
+Poly0 = 3x^4 + 2x^3
+
+CMD: ADDTERM, Poly: 0,  Coeff: 2, Exp: 5
+Poly0 = 2x^5 + 3x^4 + 2x^3
+
+CMD: ADD, Sum: 0,  Op1: 0, Op2: 0
+Poly0 = 4x^5 + 6x^4 + 4x^3
+
+CMD: ADDTERM, Poly: 1,  Coeff: 3, Exp: 1
+Poly1 = 3x
+
+CMD: ADDTERM, Poly: 1,  Coeff: 4, Exp: 0
+Poly1 = 3x + 4
+
+CMD: MULTIPLY, Poly: 1, Multiplier: -5
+Poly1 = -15x - 20
+
+CMD: ADDTERM, Poly: 3,  Coeff: 2, Exp: 3
+Poly3 = 2x^3
+
+CMD: ADDTERM, Poly: 3,  Coeff: 3, Exp: 3
+Poly3 = 5x^3
+
+CMD: MULTIPLY, Poly: 2, Multiplier: 3
+Poly2 = 0
+
+Project Grading
+The expected point breakdown for this project will be something like this.
+
+    Functionality (50 points)
+    Note that your functionality score will be zero if your code does not compile or create an executable.
+        Basic cases - This might be a command file that creates a simple polynomial.
+        More complex cases - This might be a command file that creates multiple polynomials and excutes all possible commands. Operations on polynomials with common terms. Store the sum/difference into one of the operands.
+        Atypical cases - This might be an empty file, a file that cannot be opened.
+        Stress Cases - This might be a command file uses all polynomials and/or using all terms. Operations on a polynomial with no terms.
+        valgrind -- Your code must run error-free under valgrind.
+        makefile -- Your makefile must compile all .c files and create an executable named Project4.
+    Code (25 points)
+        Coding Requirements - we expect that you adhere to the project requirements listed above with regard to the use of pointers, dynamic memory allocation, #define, const variables, and static.
+        Design - we expect that your code shows sufficient decompostion into appropriate functions.
+        Style - we expect that your code adheres to the course coding standards, particularly with respect to function and file comments and to naming conventions.
+
+Submitting the Program
+
+You can submit your project using the submit command.
+
+submit cs313 Proj4 <list of .c and .h files> makefile
+
+See this page for a description of other project submission related commands. To verify that your project was submitted, you can execute the following command at the Unix prompt. It will show all files that you submitted in a format similar to the Unix 'ls' command.
+
+submitls cs313 Proj4 

@@ -20,20 +20,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "polynomial.h"
 
 #define MAXCOMMANDLENGTH 10
 #define MAXPOLYNOMIALS 8
 #define MAXSTRINGLENGTH 101
 
-POLYNOMIAL polynomials[MAXPOLYNOMIALS];
-
+// POLYNOMIAL polynomials[MAXPOLYNOMIALS];
 
 // These are Commands that main can perform
 static char addterm[] = "ADDTERM";
 static char multiply[] = "MULTIPLY";
 static char adding[] = "ADD";
 static char subtract[] = "SUBTRACT";
+
+POLYNOMIAL *getPolyArray(int size) {
+    
+    POLYNOMIAL *polynomials = (POLYNOMIAL *)malloc(sizeof(POLYNOMIAL) * size);
+    return polynomials;
+}
 
 int main (int numb, char *argv[] ) {
      
@@ -54,6 +60,8 @@ int main (int numb, char *argv[] ) {
     int exponent;
     int scalar;
     char string[MAXSTRINGLENGTH];
+    
+    POLYNOMIAL *polynomials = getPolyArray(MAXPOLYNOMIALS);
     
     // Read each line until white space
     while ( fscanf(cmdFile, "%s", command) != EOF ) {

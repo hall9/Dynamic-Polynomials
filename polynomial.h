@@ -18,7 +18,7 @@
 
 #define MAXTERMS 20
 
-typedef struct term {
+typedef struct term{
     
     int coeff;
     int expo;
@@ -28,9 +28,13 @@ typedef struct term {
 typedef struct polynomial {
     
     int size;
+    // This needs to be changed to calloc.. not sure how within a struct
     TERM terms[MAXTERMS];
     
+    
 } POLYNOMIAL;
+
+TERM getTermArray(int size);
 
 POLYNOMIAL poly_addterm ( POLYNOMIAL polynomial, int coeff, int expo );
 
